@@ -1,0 +1,15 @@
+C:\Users\slim\Documents\c#\c#9book\my\тяп\bin\Debug\net6.0\тяп.exe
+C:\Users\slim\Documents\c#\c#9book\my\тяп\bin\Debug\net6.0\тяп.deps.json
+C:\Users\slim\Documents\c#\c#9book\my\тяп\bin\Debug\net6.0\тяп.runtimeconfig.json
+C:\Users\slim\Documents\c#\c#9book\my\тяп\bin\Debug\net6.0\тяп.dll
+C:\Users\slim\Documents\c#\c#9book\my\тяп\bin\Debug\net6.0\тяп.pdb
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.csproj.AssemblyReference.cache
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.AssemblyInfoInputs.cache
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.AssemblyInfo.cs
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.csproj.CoreCompileInputs.cache
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.dll
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\refint\тяп.dll
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.pdb
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\тяп.genruntimeconfig.cache
+C:\Users\slim\Documents\c#\c#9book\my\тяп\obj\Debug\net6.0\ref\тяп.dll
