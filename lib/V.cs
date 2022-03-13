@@ -1,6 +1,6 @@
 using System.Collections;
-
-abstract class V
+namespace lib;
+public abstract class V
 {
     public readonly string name;
     public V(string NameV)
@@ -12,12 +12,12 @@ abstract class V
         Console.WriteLine(name);
     }
 }
-class VT : V
+public class VT : V
 {
     public VT(string VT, params Chain[] rules) : base(VT)
     { }
 }
-sealed class VN : V //менять осторожно
+public class VN : V //менять осторожно
 {
     public List<Chain> Rules { get; private set; }
     public VN(string VN) : base(VN)
@@ -41,7 +41,7 @@ sealed class VN : V //менять осторожно
     }
 
 }
-class Chain : IEnumerable<V>
+public class Chain : IEnumerable<V>
 {
     public List<V> chain { get; private set; }
     public bool IsEmpty
@@ -75,7 +75,6 @@ class Chain : IEnumerable<V>
         }
     }
 
-
     public Chain(List<V> args)
     {
         chain = args;
@@ -83,6 +82,14 @@ class Chain : IEnumerable<V>
     public Chain()
     {
         chain = new();
+    }
+    public Chain(params V[] args)
+    {
+        chain = new();
+        foreach (var item in args)
+        {
+            chain.Add(item);
+        }
     }
     public void AddToChain(V arg)
     {
@@ -127,7 +134,7 @@ class Chain : IEnumerable<V>
                 Console.Write($"<{item.name}>");
             else
             {
-                Console.Write($"{(item.name=="h"?"":item.name)} ");
+                Console.Write($"{(item.name == "h" ? "" : item.name)} ");
             }
         }
     }
@@ -140,5 +147,23 @@ class Chain : IEnumerable<V>
     IEnumerator IEnumerable.GetEnumerator()
     {
         return ((IEnumerable)chain).GetEnumerator();
+    }
+    internal string[] ChainToStringArray()//для тестов
+    {
+        if (chain.Count == 0) throw new Exception("цепочка пуста");
+        int hCount = 0;
+        foreach (var item in chain)
+        {
+            if (item.name=="h") hCount++;
+        }
+        string[] a = new string[chain.Count-hCount];
+        for (int i = 0; i < chain.Count; i++)
+        {
+            if (chain[i].name == "h")
+                break;
+            else
+                a[i] = chain[i].name;
+        }
+        return a;
     }
 }

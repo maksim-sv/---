@@ -1,11 +1,31 @@
-using System.Text.RegularExpressions;
-
-class Gram
+﻿using System.Text.RegularExpressions;
+namespace lib;
+public class Gram
 {
     List<VT> VT;
     List<VN> VN;
     VN? StartVN;
     List<Chain> treeChains;
+    public List<Chain> TreeChains
+    {
+        get
+        {
+            if (treeChains is null)
+                BuildChains();
+            return treeChains;
+        }
+    }
+    public string[] [] TreeToStringArray()// для тестов
+    {
+            if (TreeChains.Count ==0) throw new Exception("дерво пусто");
+            string[] [] a = new string [TreeChains.Count] [];
+            for (int i = 0; i < TreeChains.Count; i++)
+            {
+                    a[i] = TreeChains[i].ChainToStringArray();
+            }
+            return a;
+        
+    }
     int maxLengthVT, maxLengthVN;
     public int MaxLengthVT
     {
@@ -33,7 +53,6 @@ class Gram
     {
         MaxLengthVT = maxVT;
         MaxLengthVN = maxVN;
-        treeChains = new List<Chain>();
         VT = new List<VT>();
         VN = new List<VN>();
         a = a.Trim(new char[] { '(', ')' });
@@ -183,10 +202,19 @@ class Gram
         {
             item.Print();
         }
+        if (TreeChains is null) return;
+        Console.WriteLine("Chains:");
+        foreach (var item in treeChains)
+        {
+            item.Print();
+            Console.Write($"    L:{item.chain.Count}");
+            Console.WriteLine();
+        }
     }
     //build chains
-    public void BuildChains()
+    void BuildChains()
     {
+        treeChains = new();
         BuildChain(new Chain(new List<V> { StartVN }));
 
         void BuildChain(Chain currentChain)
@@ -219,13 +247,5 @@ class Gram
             return (x.chain.Count > y.chain.Count) ? 1 : -1;
         };
         treeChains.Sort(a);
-        if (treeChains.Count==0) return;
-        Console.WriteLine("Chains:");
-        foreach (var item in treeChains)
-        {
-            item.Print();
-            Console.Write($"    L:{item.chain.Count}");
-            Console.WriteLine();
-        }
     }
 }
