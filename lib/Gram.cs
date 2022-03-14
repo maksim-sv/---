@@ -5,26 +5,26 @@ public class Gram
     List<VT> VT;
     List<VN> VN;
     VN? StartVN;
-    List<Chain> treeChains;
-    public List<Chain> TreeChains
+    List<Chain> chainsTree;
+    public List<Chain> ChainsTree
     {
         get
         {
-            if (treeChains is null)
+            if (chainsTree is null)
                 BuildChains();
-            return treeChains;
+            return chainsTree;
         }
     }
-    public string[] [] TreeToStringArray()// для тестов
+    public string[][] TreeToStringArray()// для тестов
     {
-            if (TreeChains.Count ==0) throw new Exception("дерво пусто");
-            string[] [] a = new string [TreeChains.Count] [];
-            for (int i = 0; i < TreeChains.Count; i++)
-            {
-                    a[i] = TreeChains[i].ChainToStringArray();
-            }
-            return a;
-        
+        if (ChainsTree.Count == 0) throw new Exception("дерво пусто");
+        string[][] a = new string[ChainsTree.Count][];
+        for (int i = 0; i < ChainsTree.Count; i++)
+        {
+            a[i] = ChainsTree[i].ChainToStringArray();
+        }
+        return a;
+
     }
     int maxLengthVT, maxLengthVN;
     public int MaxLengthVT
@@ -202,20 +202,34 @@ public class Gram
         {
             item.Print();
         }
-        if (TreeChains is null) return;
+        if (ChainsTree is null) return;
         Console.WriteLine("Chains:");
-        foreach (var item in treeChains)
+        int i = 0;
+        foreach (var item in chainsTree)
         {
+
+            Console.Write($"{i++}\t");
             item.Print();
-            Console.Write($"    L:{item.chain.Count}");
+            Console.Write($"\tL:{item.chain.Count}");
             Console.WriteLine();
+        }
+    }
+    public void PrintChainHistory(int i)
+    {
+        if (i>-1 && i<ChainsTree.Count)
+        {
+            ChainsTree[i].PrintHistory();
+        }
+        else
+        {
+            Console.WriteLine("неверный индекс");
         }
     }
     //build chains
     void BuildChains()
     {
-        treeChains = new();
-        BuildChain(new Chain(new List<V> { StartVN }));
+        chainsTree = new();
+        BuildChain(new Chain(StartVN));
 
         void BuildChain(Chain currentChain)
         {
@@ -233,7 +247,7 @@ public class Gram
             VN? T = currentChain.SearchVN();
             if (T is null)
             {
-                treeChains.Add(currentChain);
+                chainsTree.Add(currentChain);
                 return;
             }
             foreach (var item in T.Rules)
@@ -246,6 +260,6 @@ public class Gram
             if (x.chain.Count == y.chain.Count) return 0;
             return (x.chain.Count > y.chain.Count) ? 1 : -1;
         };
-        treeChains.Sort(a);
+        chainsTree.Sort(a);
     }
 }

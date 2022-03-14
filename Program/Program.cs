@@ -8,6 +8,7 @@ try
     gram.MaxLengthVN = 3;
     gram.MaxLengthVT = 4;
     gram.Print();
+    gram.PrintChainHistory(2);
 
 }
 catch (Exception e) { WriteLine(e.Message); }
