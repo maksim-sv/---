@@ -36,7 +36,6 @@ internal class VN : V //менять осторожно
             item.Print();
             Console.Write(" | ");
         }
-        // Console.Write("\b\b");
         Console.WriteLine();
     }
 

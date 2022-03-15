@@ -190,16 +190,19 @@ public class Gram
             item.Print();
         }
 
-        Console.WriteLine($"S:{StartVN}");
+        Console.WriteLine($"S:{StartVN.name}");
         Console.WriteLine("Chains:");
         int i = 0;
         foreach (var item in chainsTree)
         {
-
-            Console.Write($"{i++}\t");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write($"{i++}:");
+            Console.ResetColor();
             item.Print();
-            Console.Write("\t"+$"L:{item.chain.Count}"+"\n");
-            Console.WriteLine("History:");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("\t"+$"L:{item.chain.Count}");
+            Console.ResetColor();
+            Console.WriteLine();
             PrintChainHistory(i -1);
         }
     }
