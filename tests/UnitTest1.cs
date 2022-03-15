@@ -141,8 +141,8 @@ public class UnitTest1
         Assert.False(GramChecker.ComplexCheckGram(gram5));
         string gram6 = @"asd-sad
         },{asd },
-        {as-,ksda-asdlk-d,-pp--fd},asjkld";
-        Assert.False(GramChecker.ComplexCheckGram(gram5));
+        {-ds-kfj},asjkld";
+        Assert.False(GramChecker.ComplexCheckGram(gram6));
     }
 
 }

@@ -1,34 +1,34 @@
 using System.Collections;
 namespace lib;
-public abstract class V
+internal abstract class V
 {
-    public readonly string name;
-    public V(string NameV)
+    internal readonly string name;
+    internal V(string NameV)
     {
         name = NameV;
     }
-    public virtual void Print()
+    internal virtual void Print()
     {
         Console.WriteLine(name);
     }
 }
-public class VT : V
+internal class VT : V
 {
-    public VT(string VT, params Chain[] rules) : base(VT)
+    internal VT(string VT, params Chain[] rules) : base(VT)
     { }
 }
-public class VN : V //менять осторожно
+internal class VN : V //менять осторожно
 {
-    public List<Chain> Rules { get; private set; }
-    public VN(string VN) : base(VN)
+    internal List<Chain> Rules { get; private set; }
+    internal VN(string VN) : base(VN)
     {
         Rules = new();
     }
-    public void AddRule(Chain InRule)
+    internal void AddRule(Chain InRule)
     {
         Rules.Add(InRule);
     }
-    public override void Print()
+    internal override void Print()
     {
         Console.Write(name + "-");
         foreach (var item in Rules)
@@ -41,15 +41,11 @@ public class VN : V //менять осторожно
     }
 
 }
-public class Chain : IEnumerable<V>
+internal class Chain : IEnumerable<V>
 {
-    public List<ChainHistory>? chainHistory { get; private set; }
-    public List<V> chain { get; private set; }
-    public bool IsEmpty
-    {
-        get { return chain.Count > 0; }
-    }
-    public int CountVT
+    internal List<ChainHistory>? chainHistory { get; private set; }
+    internal List<V> chain { get; private set; }
+    internal int CountVT
     {
         get
         {
@@ -62,7 +58,7 @@ public class Chain : IEnumerable<V>
             return count;
         }
     }
-    public int CountVN
+    internal int CountVN
     {
         get
         {
@@ -75,16 +71,11 @@ public class Chain : IEnumerable<V>
             return count;
         }
     }
-
-    public Chain(List<V> args)
-    {
-        chain = args;
-    }
-    public Chain()
+    internal Chain()
     {
         chain = new();
     }
-    public Chain(params V[] args)
+    internal Chain(params V[] args)
     {
         chain = new();
         foreach (var item in args)
@@ -92,31 +83,30 @@ public class Chain : IEnumerable<V>
             chain.Add(item);
         }
     }
-    public void AddToChain(V arg)
+    internal void AddToChain(V arg)
     {
         chain.Add(arg);
     }
-    public VN? SearchVN(bool leftSearch = true)
+    internal (int,VN)? SearchVN(bool leftSearch = true)
     {
         if (leftSearch)
             for (int i = 0; i < chain.Count; i++)
             {
-                if (chain[i] is VN) return (VN)chain[i];
+                if (chain[i] is VN) return (i,(VN)chain[i]);
             }
         else
             for (int i = chain.Count - 1; i > -1; i--)
             {
-                if (chain[i] is VN) return (VN)chain[i];
+                if (chain[i] is VN) return (i,(VN)chain[i]);
             }
         return null;
     }
-    public Chain Replace(VN from, Chain that)
+    internal Chain Replace(int from, Chain that)//возвращает копию цепочки с историей
     {
         Chain copy = new();
-        int index = chain.IndexOf(from);
         for (int i = 0; i < chain.Count; i++)
         {
-            if (i == index)
+            if (i == from)
             {
                 foreach (var item in that)
                 {
@@ -134,12 +124,11 @@ public class Chain : IEnumerable<V>
                 copy.chainHistory.Add(item);
             }
         }
-        copy.chainHistory?.Add(new ChainHistory(from, new Chain(chain), that));
+        copy.chainHistory?.Add(new ChainHistory(from, this, copy));
         return copy;
-
     }
 
-    public void Print()
+    internal void Print()
     {
         foreach (var item in chain)
         {
@@ -147,34 +136,42 @@ public class Chain : IEnumerable<V>
                 Console.Write($"<{item.name}>");
             else
             {
-                Console.Write($"{(item.name == "h" ? "" : item.name)} ");
+                // Console.Write($"{(item.name == "h" ? "" : item.name)} ");
+                Console.Write(item.name);
             }
         }
     }
-    public void PrintHistory()
+    internal void PrintHistory()
     {
         if (chainHistory is null) Console.WriteLine("История не сохранена");
         else
         {
             foreach (var item in chainHistory)
             {
-                foreach (var item1 in item.ReplacedChain)
+                //вывести исходную цепочку
+                for (int i = 0; i < item.ReplacedChain.chain.Count; i++)
                 {
-                    if (item1 == item.ReplacedSymbol)
+                    if (item.ReplacedChain.chain[i] is VN)
                     {
-                        Console.Write($"*{item1.name}*");
+                        Console.Write("<");
+                        if (i == item.ReplacedSymbolIndex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(item.ReplacedChain.chain[i].name);
+                            Console.ResetColor();
+                        }
+                        else Console.Write(item.ReplacedChain.chain[i].name);
+                        Console.Write(">");
                     }
                     else
                     {
-                        Console.Write(item1.name);
+                        Console.Write(item.ReplacedChain.chain[i].name);
                     }
                 }
                 Console.Write("-");
-                foreach (var item1 in item.ReceivedChain)
-                {
-                    Console.Write(item1.name);
-                }
-                Console.WriteLine();
+                item.ReceivedChain.Print();
+                Console.Write("\n");
+                
             }
         }
     }
@@ -187,7 +184,7 @@ public class Chain : IEnumerable<V>
     {
         return ((IEnumerable)chain).GetEnumerator();
     }
-    internal string[] ChainToStringArray()//для тестов
+    public string[] ChainToStringArray()//для тестов
 
     {
         if (chain.Count == 0) throw new Exception("цепочка пуста");
@@ -207,15 +204,15 @@ public class Chain : IEnumerable<V>
         return a;
     }
 }
-public class ChainHistory
+internal class ChainHistory
 {
-    public VN ReplacedSymbol { get; private set; }
-    public Chain ReplacedChain { get; private set; }
-    public Chain ReceivedChain { get; private set; }
+    internal int ReplacedSymbolIndex { get; private set; }
+    internal Chain ReplacedChain { get; private set; }
+    internal Chain ReceivedChain { get; private set; }
 
-    public ChainHistory(VN replacedSymbol, Chain replacedChain, Chain receivedChain)
+    internal ChainHistory(int replacedSymbolIndex, Chain replacedChain, Chain receivedChain)
     {
-        ReplacedSymbol = replacedSymbol;
+        ReplacedSymbolIndex = replacedSymbolIndex;
         ReplacedChain = replacedChain;
         ReceivedChain = receivedChain;
     }
