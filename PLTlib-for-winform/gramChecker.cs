@@ -23,20 +23,23 @@ public class GramChecker
         Regex.IsMatch(arg, @"^\{[\wА-Яа-яёЁ,]+\},\{[\wА-Яа-яёЁ,]+\},\{[\wА-Яа-яёЁ\-\|,]+\},[\wА-Яа-яёЁ]+$") == false
         ) throw new Exception($"неправильная грамматика\nошибка при парсинге:{arg}");
     }
-    static public void CheckV(string arg)
+    static public bool CheckV(string arg)
     {
         arg = arg.Trim(new char[] { '{', '}' });
         if (
          Regex.IsMatch(arg, @"^([\wА-Яа-яёЁ]+,)*[\wА-Яа-яёЁ]+$") == false)
-            throw new Exception($"неправильный алфавит\nошибка при парсинге:{arg}");
+            return false;
+        else return true;
+            //throw new Exception($"неправильный алфавит\nошибка при парсинге:{arg}");
     }
-    static public void CheckP(string arg)
+    static public bool CheckP(string arg)
     {
         arg = arg.Trim(new char[] { '{', '}' });
-        foreach (var item in arg.Split(","))
+       // foreach (var item in arg.Split(","))
         {
-            if (Regex.IsMatch(item, @"^[\wА-Яа-яёЁ]+-([\wА-Яа-яёЁ]+\|)*[\wА-Яа-яёЁ]+$") == false)
-                throw new Exception($"неправильные правила\nошибка при парсинге:{item}");
+            if (Regex.IsMatch(arg, @"^[\wА-Яа-яёЁ]+-([\wА-Яа-яёЁ]+\|)*[\wА-Яа-яёЁ]+$") == false) return false;
+               else return true;
+                    // throw new Exception($"неправильные правила\nошибка при парсинге:{item}");
         }
     }
     static public void CheckS(string arg)

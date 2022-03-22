@@ -1,8 +1,8 @@
 using System.Collections;
 namespace lib;
-internal abstract class V
+public abstract class V
 {
-    internal readonly string name;
+    public readonly string name;
     internal V(string NameV)
     {
         name = NameV;
@@ -12,14 +12,14 @@ internal abstract class V
         Console.WriteLine(name);
     }
 }
-internal class VT : V
+public class VT : V
 {
     internal VT(string VT, params Chain[] rules) : base(VT)
     { }
 }
-internal class VN : V //менять осторожно
+public class VN : V //менять осторожно
 {
-    internal List<Chain> Rules { get; private set; }
+    public List<Chain> Rules { get; private set; }
     internal VN(string VN) : base(VN)
     {
         Rules = new();
@@ -40,10 +40,10 @@ internal class VN : V //менять осторожно
     }
 
 }
-internal class Chain : IEnumerable<V>
+public class Chain : IEnumerable<V>
 {
-    internal List<ChainHistory>? chainHistory { get; private set; }
-    internal List<V> chain { get; private set; }
+    public List<ChainHistory>? chainHistory { get; private set; }
+    public List<V> chain { get; private set; }
     internal int CountVT
     {
         get
@@ -127,24 +127,25 @@ internal class Chain : IEnumerable<V>
         return copy;
     }
 
-    internal void Print()
+    public string Print()
     {
+        string a="";
         foreach (var item in chain)
         {
             if (item is VN)
-                Console.Write($"<{item.name}>");
+                a+=$"<{item.name}>";
             else
             {
                 // Console.Write($"{(item.name == "h" ? "" : item.name)} ");
-                Console.Write(item.name);
+                a+=item.name;
             }
         }
+        return a;
     }
-    internal void PrintHistory()
+    internal List<string> PrintHistory()
     {
-        if (chainHistory is null) Console.WriteLine("История не сохранена");
-        else
-        {
+        List<string> history = new List<string>();  
+ 
             foreach (var item in chainHistory)
             {
                 //вывести исходную цепочку
@@ -172,7 +173,7 @@ internal class Chain : IEnumerable<V>
                 Console.Write("\n");
                 
             }
-        }
+        return history;
     }
     public IEnumerator<V> GetEnumerator()
     {
@@ -203,11 +204,11 @@ internal class Chain : IEnumerable<V>
         return a;
     }
 }
-internal class ChainHistory
+public class ChainHistory
 {
-    internal int ReplacedSymbolIndex { get; private set; }
-    internal Chain ReplacedChain { get; private set; }
-    internal Chain ReceivedChain { get; private set; }
+    public int ReplacedSymbolIndex { get; private set; }
+    public Chain ReplacedChain { get; private set; }
+    public Chain ReceivedChain { get; private set; }
 
     internal ChainHistory(int replacedSymbolIndex, Chain replacedChain, Chain receivedChain)
     {

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLT-lab1-winform", "PLT-lab1-winform.csproj", "{6422FFFE-8ECF-4ECC-983A-A1A1860C0C59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLTlib-for-winform", "..\PLTlib-for-winform\PLTlib-for-winform.csproj", "{FBB2631D-CA1B-48F1-8BB1-A2B8812B6A28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6422FFFE-8ECF-4ECC-983A-A1A1860C0C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6422FFFE-8ECF-4ECC-983A-A1A1860C0C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6422FFFE-8ECF-4ECC-983A-A1A1860C0C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6422FFFE-8ECF-4ECC-983A-A1A1860C0C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB2631D-CA1B-48F1-8BB1-A2B8812B6A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB2631D-CA1B-48F1-8BB1-A2B8812B6A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB2631D-CA1B-48F1-8BB1-A2B8812B6A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB2631D-CA1B-48F1-8BB1-A2B8812B6A28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64D0C451-6E8D-4933-9A07-01D66DEB1E0D}
+	EndGlobalSection
+EndGlobal
