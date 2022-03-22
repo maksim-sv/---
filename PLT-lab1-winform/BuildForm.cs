@@ -3,8 +3,8 @@
 
     public partial class BuildForm : Form
     {
-        bool leftSearch = true;
-        int maxVT = 6, maxVN = 10;
+        bool leftSearch = true, showH = true;
+        int maxVT = 6, maxVN = 3;
         View view;
         internal BuildForm(View viewModel)
         {
@@ -52,7 +52,12 @@
             gramList.Items[gramList.SelectedIndex].ToString();
             showGram.Nodes.Add("VT");
             foreach (lib.VT VT in gram.VT)
-                showGram.Nodes[0].Nodes.Add(VT.name);
+                if (VT.name == "_h")
+                {
+                    break;
+                }
+                else
+                    showGram.Nodes[0].Nodes.Add(VT.name);
             showGram.Nodes.Add("VN");
             for (int i = 0; i < gram.VN.Count; i++)
             {
@@ -62,7 +67,7 @@
                 //вывести правила
                 foreach (lib.Chain ruleBlock in VN.Rules)
                 {
-                    showGram.Nodes[1].Nodes[i].Nodes.Add(ruleBlock.Print());
+                    showGram.Nodes[1].Nodes[i].Nodes.Add(ruleBlock.Print(showH));
                 }
             }
         }
@@ -70,6 +75,13 @@
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             maxVT = (int)numericUpDown1.Value;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            showH = checkBox1.Checked;
+            gramList_SelectedIndexChanged(this,new EventArgs ());
+            showResults.Nodes.Clear();
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
@@ -85,7 +97,7 @@
             List<lib.Chain> results = gram.BuildChains(leftSearch, maxVT, maxVN);
             for (int i = 0; i < results.Count; i++)
             {
-                showResults.Nodes.Add(results[i].Print());
+                showResults.Nodes.Add(results[i].Print(showH));
                 for (int j = 0; j < results[i].chainHistory.Count; j++)
                 {
                     string a = "";
@@ -100,7 +112,14 @@
                         else a += results[i].chainHistory[j].ReplacedChain.chain[n].name;
                     }
                     a += " - ";
-                    a += results[i].chainHistory[j].ReceivedChain.Print();
+                    for (int n = 0; n < results[i].chainHistory[j].ReceivedChain.chain.Count; n++)
+                    {
+                        if (results[i].chainHistory[j].ReceivedChain.chain[n] is lib.VN)
+                        {
+                            a += $"<{results[i].chainHistory[j].ReceivedChain.chain[n].name}>";
+                        }
+                        else a += results[i].chainHistory[j].ReceivedChain.chain[n].name;
+                    }
                     showResults.Nodes[i].Nodes.Add(a);
                 }
             }

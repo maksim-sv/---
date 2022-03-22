@@ -48,6 +48,14 @@ namespace PLT_lab1_winform
                 a1.SetStartVN("S");
                 grams.Add("2 VN", a1);
             }
+            {
+                Gram a1 = new Gram();
+                a1.AddVT("a,b,_h");
+                a1.AddVN("S,T");
+                a1.AddRules("S-SS|Sa|_h|aT,T-aa|_h");
+                a1.SetStartVN("S");
+                grams.Add("с пустотй цепочкой", a1);
+            }
         }
         string[] ObjColToStringArray(ObjectCollection arg)
         {

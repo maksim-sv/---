@@ -28,16 +28,6 @@ public class VN : V //менять осторожно
     {
         Rules.Add(InRule);
     }
-    internal override void Print()
-    {
-        Console.Write(name + "-");
-        foreach (var item in Rules)
-        {
-            item.Print();
-            Console.Write(" | ");
-        }
-        Console.WriteLine();
-    }
 
 }
 public class Chain : IEnumerable<V>
@@ -86,17 +76,17 @@ public class Chain : IEnumerable<V>
     {
         chain.Add(arg);
     }
-    internal (int,VN)? SearchVN(bool leftSearch = true)
+    internal (int, VN)? SearchVN(bool leftSearch = true)
     {
         if (leftSearch)
             for (int i = 0; i < chain.Count; i++)
             {
-                if (chain[i] is VN) return (i,(VN)chain[i]);
+                if (chain[i] is VN) return (i, (VN)chain[i]);
             }
         else
             for (int i = chain.Count - 1; i > -1; i--)
             {
-                if (chain[i] is VN) return (i,(VN)chain[i]);
+                if (chain[i] is VN) return (i, (VN)chain[i]);
             }
         return null;
     }
@@ -127,54 +117,25 @@ public class Chain : IEnumerable<V>
         return copy;
     }
 
-    public string Print()
+    public string Print(bool showH)
     {
-        string a="";
+        string a = "";
         foreach (var item in chain)
         {
             if (item is VN)
-                a+=$"<{item.name}>";
+                a += $"<{item.name}>";
             else
             {
                 // Console.Write($"{(item.name == "h" ? "" : item.name)} ");
-                a+=item.name;
+                if (showH)
+                    a += item.name == "_h" ? "_ " : item.name;
+                else
+                    a += item.name == "_h" ? "" : item.name;
             }
         }
         return a;
     }
-    internal List<string> PrintHistory()
-    {
-        List<string> history = new List<string>();  
- 
-            foreach (var item in chainHistory)
-            {
-                //вывести исходную цепочку
-                for (int i = 0; i < item.ReplacedChain.chain.Count; i++)
-                {
-                    if (item.ReplacedChain.chain[i] is VN)
-                    {
-                        Console.Write("<");
-                        if (i == item.ReplacedSymbolIndex)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(item.ReplacedChain.chain[i].name);
-                            Console.ResetColor();
-                        }
-                        else Console.Write(item.ReplacedChain.chain[i].name);
-                        Console.Write(">");
-                    }
-                    else
-                    {
-                        Console.Write(item.ReplacedChain.chain[i].name);
-                    }
-                }
-                Console.Write("-");
-                item.ReceivedChain.Print();
-                Console.Write("\n");
-                
-            }
-        return history;
-    }
+    
     public IEnumerator<V> GetEnumerator()
     {
         return ((IEnumerable<V>)chain).GetEnumerator();

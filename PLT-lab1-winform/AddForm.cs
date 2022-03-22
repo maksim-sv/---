@@ -117,8 +117,8 @@ namespace PLT_lab1_winform
                 if (selectedListbox == 1 & i == startVNindex)
                 {
                     listBox.Items.Remove(selectedItems[i]);
-                    if (listBox.Items.Count == 0) { startVNindex = -1; }
-                    else { setS(0); }
+                    startVNindex = -1;
+                    if (listBox.Items.Count != 0) { setS(0); }
                 }
                 else
                 {

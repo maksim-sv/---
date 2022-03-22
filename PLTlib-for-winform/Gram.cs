@@ -216,12 +216,6 @@ public class Gram
         {
             if (currentChain.CountVT > maxLengthVT || currentChain.CountVN > maxLengthVN)
             {
-                if (currentChain.CountVN > maxLengthVN)
-                {
-                    Console.Write("\nпревышена глубина поиска: цепочка \"");
-                    currentChain.Print();
-                    Console.Write("\" сброшена");
-                }
                 return;
             }
             var replacedSymbol = currentChain.SearchVN(leftSearch);
